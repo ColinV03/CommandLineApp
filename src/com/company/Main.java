@@ -1,10 +1,13 @@
 package com.company;
 
+import jdk.swing.interop.SwingInterOpUtils;
+
 import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Scanner;
 
 
@@ -188,45 +191,173 @@ public class Main {
 
 
         //My solution: Not functional yet.
-//        constants:
+////        constants:
         final byte monthsInYear = 12;
         final byte percent = 100;
+        int principal = 0;
+        float monthlyInterest = 0;
+        int numberOfPayments = 0;
 
 // initialize scanner:
         Scanner scanner = new Scanner(System.in);
 
 //  Inputs:
-        System.out.print("Your principal value: ");
-        int principal = scanner.nextInt();
+        while(true){
+            System.out.print("Your principal value(between $1000 and $100M): ");
+            principal = scanner.nextInt();
+            if(principal >= 1000 && principal <= 100000000){
+                break;
+            }
+            System.out.println("Enter a value between 1000 and 100,000,000");
+        }
+        while(true){
+            System.out.print("Your Annual Interest Rate: ");
+            float annualInterest =  scanner.nextFloat();
+            if(annualInterest >= 1 && annualInterest <= 30){
+                monthlyInterest = annualInterest / percent / monthsInYear;
+                break;
+            }
+            System.out.println("Please enter a value between 1% and 30%");
 
-        System.out.print("Your Annual Interest Rate: ");
-        double annualInterest =  (scanner.nextFloat() / percent);
-        double monthlyInterest = (annualInterest/monthsInYear );
+        }
 
-        System.out.print("Your Term: ");
-        int termLengthYears = scanner.nextInt();
-        int termMonths = (termLengthYears * monthsInYear);
+        while (true){
+            System.out.print("Period(years): ");
+            byte years = scanner.nextByte();
+            if(years >= 1 && years <= 30){
+                numberOfPayments = years * monthsInYear;
+                break;
+            }
+            System.out.println("Please enter value between 1 and 30");
+
+        }
+
+
+
+
+//        System.out.print("Your Term in Years: ");
+//        int termLengthYears = scanner.nextInt();
+//        int termMonths = (termLengthYears * monthsInYear);
 
         //top, bottom of equation:
-        double topValue = monthlyInterest * Math.pow((monthlyInterest + 1), termMonths);
-        double bottomValue = (Math.pow(monthlyInterest + 1, termMonths) - 1);
+//        double topValue = ;
+//        double bottomValue = (;
 
-        double mortgage = principal * ( topValue/bottomValue);
+        double mortgage = principal * ( (monthlyInterest * Math.pow((monthlyInterest + 1), numberOfPayments))/(Math.pow(monthlyInterest + 1, numberOfPayments) - 1));
 
 
         //return
-        String currency = NumberFormat.getCurrencyInstance().format(principal);
-        String apr = DecimalFormat.getPercentInstance().format(annualInterest);
+//        String currency = NumberFormat.getCurrencyInstance().format(principal);
+//        String apr = DecimalFormat.getPercentInstance().format(annualInterest);
         String finalValue = NumberFormat.getCurrencyInstance().format(mortgage);
 
 
+
         //Input fields:
-    System.out.println("Principle: " + currency +
-            "\nAPR: " + annualInterest + "\n " + apr +
-            "\nTerm Length: " +
-            termLengthYears +
-            "\n(Months)" + termMonths +
-            "\nMonthly %:"+  monthlyInterest +
+    System.out.println(
+//            "Principle: " + currency +
+//                    "\nAPR: " + annualInterest + "\n " + apr +
+//                    "\nTerm Length in Years: " +
+//                    termLengthYears +
+//                    "\n(Months)" + termMonths +
+//            "\nMonthly %:"+  monthlyInterest +
             "\nCalculated mortgage value: " + finalValue);
+
+
+
+        //Operators, conditionals, etc'
+//       if/else's
+//        int tempC = 21;
+//        boolean willRain = true;
+//        boolean isWindy = false;
+//        if(tempC > 20){
+//            if(willRain || isWindy){
+//                System.out.println("You need it!");
+//            }else{
+//                System.out.println("Enjoy the day!");
+//            }
+//        }
+
+//        lets use Ternary! evaluate ? true: false
+
+//        and SWITCH WORKS TOO! a
+//        String role = "admin";
+//
+//        switch (role){
+//            case "admin":
+//                System.out.println("is an Admin!");
+//                break;
+//            case "moderator":
+//                System.out.println("is a Moderator!");
+//                break;
+//            default:
+//                System.out.println("You're a guest");
+//        }
+
+
+//        LETS DO FIZZBUZZ
+//        if input number is divisible by 5: fizz, 3: buzz, 15: fizzbuzz, else return number!
+//
+//        Scanner scanner = new Scanner(System.in); //Where to get data from:
+//        System.out.print("Number? ");
+//        int number = scanner.nextInt();
+//
+//
+//
+//            if(number % 15 == 0){
+//                System.out.println("FIZZBUZZ");
+//            }else if(number % 5 == 0){
+//                System.out.println("Fizz");
+//            }else if(number % 3 == 0){
+//                System.out.println("Buzz");
+//            }else{
+//                System.out.println(number);
+//            }
+
+
+//         FOR LOOPS:
+//        for (int i = 0; i< 10; i++){
+//            System.out.println("hello World!" + i);
+//        }
+
+//        While Loop:
+//         int i = 0;
+//         while(i >= 0 && i < 10){
+//             i++;
+//             System.out.println("Hello While! " + i);
+//         }
+
+//        Scanner scanner  = new Scanner(System.in);
+//        String input = "";
+//        while (!input.equals("quit")) {
+//            System.out.print("input: ");
+//            input = scanner.next().toLowerCase();
+//            System.out.println(input);
+//
+//
+//        }
+//        DO WHILE: Same as while, but executes AT LEAST ONCE!
+//        do{
+
+//          DOES SOMETHING:
+//        }while ();
+
+
+//        Break will end the function RIGHT where the break occurs, would not continue.
+//        Continue will restart at beginning of loop.
+
+
+//        FOR EACH LOOPS:
+
+//        specifically for arrays:
+//        String[] fruits = {"apple", "Bananas", "Oranges"};
+//        for (String fruit: fruits
+//             ) {
+//            System.out.println(fruit);
+//
+//        }
+
+
+
     }
 }
